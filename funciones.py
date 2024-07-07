@@ -119,6 +119,7 @@ def ingresar_id_a_modificar():
     
     while(resultado is None):
         id = input("El id no existe, ingrese el id: ")
+        resultado = next((item for item in lista_proyectos if item["id"] == id), None)
     
     return resultado
 
@@ -227,7 +228,44 @@ def mostrar_proyectos():
         # Imprimiendo cada proyecto con el formato deseado
         print(f"| {nombre} | {descripcion} | {presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n")
 
+def calcular_promedio():
+    global lista_proyectos
+    presupuesto_total = 0
+    #recorro todos los proyectos y voy sumando sus presupuestos
+    for proyecto in lista_proyectos:
+       presupuesto = int(proyecto['Presupuesto'])
+       presupuesto_total += presupuesto
+    #para sacar el promedio calculo la suma de todos los presupuestos divido la cantidad de proyectos   
+    resultado = presupuesto_total / len(lista_proyectos)
+    print(f"el promedio presupuestario es: {int(resultado)}")
+
+def ingresar_id_a_modificar():
+    global lista_proyectos
+
+    id = input("ingrese el id: ")
     
+    # Buscar el diccionario que contiene el valor especificado en la clave "id"
+    resultado = next((item for item in lista_proyectos if item["id"] == id), None)
+    
+    while(resultado is None):
+        id = input("El id no existe, ingrese el id: ")
+        resultado = next((item for item in lista_proyectos if item["id"] == id), None) 
+    
+    return resultado
+
+def ingresar_nombre_a_buscar():
+    global lista_proyectos
+    nombre_a_buscar = input("ingrese el nombre a buscar: ")
+    proyecto = next((item for item in lista_proyectos if item["Nombre del Proyecto"] == nombre_a_buscar), None)
+
+    while (proyecto is None):
+        nombre_a_buscar = input("El proyecto ingresado no existe. ingrese el nombre a buscar: ")
+        proyecto = next((item for item in lista_proyectos if item["Nombre del Proyecto"] == nombre_a_buscar), None)
+
+    # Cabecera de la tabla
+    print("| Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |\n")
+    print(f"| {proyecto['Nombre del Proyecto']} | {proyecto['Descripción']} | {proyecto['Presupuesto']} | {proyecto['Fecha de inicio']} | {proyecto['Fecha de Fin']} | {proyecto['Estado']} |")
+
 
     
     

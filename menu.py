@@ -19,9 +19,9 @@ while(corriendo):
         case 5:
              mostrar_proyectos()
         case 6:
-             break
+             calcular_promedio()
         case 7:
-            break
+             ingresar_nombre_a_buscar()
         case 8:
             break
         case 9:
