@@ -150,18 +150,18 @@ def modificar_proyecto(proyecto: Dict):
             print("El proyecto modificó la descripción exitosamente.")
         
         case 3:
-            fecha_inicio_nueva = input("Ingrese la nueva fecha de inicio (DD/MM/AAAA): ")
+            fecha_inicio_nueva = input("Ingrese la nueva fecha de inicio (DD-MM-AAAA): ")
             while not validar_fecha(fecha_inicio_nueva):
-                fecha_inicio_nueva = input("Por favor, ingrese una fecha de inicio válida (DD/MM/AAAA): ")
+                fecha_inicio_nueva = input("Por favor, ingrese una fecha de inicio válida (DD-MM-AAAA): ")
             
             proyecto["Fecha de inicio"] = fecha_inicio_nueva
             generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
             print("El proyecto modificó la fecha de inicio exitosamente.")
         
         case 4:
-            fecha_fin_nueva = input("Ingrese la nueva fecha de fin (DD/MM/AAAA): ")
+            fecha_fin_nueva = input("Ingrese la nueva fecha de fin (DD-MM-AAAA): ")
             while not validar_fecha(fecha_fin_nueva):
-                fecha_fin_nueva = input("Por favor, ingrese una fecha de fin válida (DD/MM/AAAA): ")
+                fecha_fin_nueva = input("Por favor, ingrese una fecha de fin válida (DD-MM-AAAA): ")
             
             proyecto["Fecha de Fin"] = fecha_fin_nueva
             generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
@@ -201,12 +201,31 @@ def comprobar_proyectos():
     fecha_hoy = datetime.today()
     fecha_hoy_formateada = fecha_hoy.strftime(FORMATO)
 
+    #Recorro toda la lista
     for proyecto in lista_proyectos:
+        #busco algun proyecto donde la fecha sea menor a la fecha de hoy
         if not validar_rango_fechas(fecha_hoy_formateada,proyecto['Fecha de Fin']):
             proyecto['Estado'] = "Finalizado"
     generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
     print("proyectos comprobados exitosamente")
 
+def mostrar_proyectos():
+    global lista_proyectos
+    
+    # Cabecera de la tabla
+    print("| Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |\n")
+    
+    # Recorriendo la lista de proyectos y mostrando cada proyecto
+    for proyecto in lista_proyectos:
+        nombre = proyecto.get("Nombre del Proyecto", "")
+        descripcion = proyecto.get("Descripción", "")
+        presupuesto = proyecto.get("Presupuesto", "")
+        fecha_inicio = proyecto.get("Fecha de Inicio", "")
+        fecha_fin = proyecto.get("Fecha de Fin", "")
+        estado = proyecto.get("Estado", "")
+        
+        # Imprimiendo cada proyecto con el formato deseado
+        print(f"| {nombre} | {descripcion} | {presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n")
 
     
 

@@ -17,9 +17,9 @@ while(corriendo):
         case 4:
             comprobar_proyectos()
         case 5:
-            break
+             mostrar_proyectos()
         case 6:
-            break
+             break
         case 7:
             break
         case 8:
