@@ -1,12 +1,12 @@
 id,Nombre del Proyecto,Descripción,Fecha de inicio,Fecha de Fin,Presupuesto,Estado
 1,Plataforma de Gestión Empresarial,Sistema de gestión de recursos empresariales para mejorar la eficiencia operativa,13-10-2023,17-04-2025,"$42,931
 2,Sistema de Planificación de Recursos,Desarrollo de un sistema avanzado de planificación de recursos empresariales,17-07-2023,18-05-2025,"$642,055
-3,Sistema de Información Epidemiológica,Plataforma para el seguimiento y análisis de datos epidemiológicos,14-06-2023,02-02-2024,"$850,312
-4,Red de Transporte Público,Mejora y ampliación de la infraestructura de transporte público,30-03-2023,24-07-2023,"$937,383
+3,Sistema de Información Epidemiológica,Plataforma para el seguimiento y análisis de datos epidemiológicos,14-06-2023,02-02-2024,"$850,Finalizado
+4,Red de Transporte Público,Mejora y ampliación de la infraestructura de transporte público,30-03-2023,24-07-2023,"$937,Finalizado
 5,Royal Guard Tales,La mejor obra de ficción jamas creada.,06-06-2021,03-02-2030,"$149,912
 6,Laboratorio de Microbiología,Investigación y desarrollo en microbiología aplicada,13-07-2023,07-10-2025,"$325,746
-7,Planificación de Sucesión,Desarrollo de un sistema para la planificación de la sucesión en empresas,01-01-2023,20-05-2023,"$231,786
-8,Sistema de Gestión de Documentos,Desarrollo de un sistema para la gestión y archivo de documentos,06-09-2023,19-05-2023,"$65,296
-9,Investigación de Trastornos del Sueño,Estudio y tratamiento de diversos trastornos del sueño,23-05-2023,03-08-2023,"$555,060
-10,Sistema de Incendios Extremo,Desarrollo de un sistema avanzado de prevención y control de incendios,14-02-2023,03-04-2023,"$240,Cancelado
-11,Genomica,Proyecto ios de genonica para reproducir analisis de adn,8/7/2024,7/7/2026,100000000,Activo
+7,Planificación de Sucesión,Desarrollo de un sistema para la planificación de la sucesión en empresas,01-01-2023,20-05-2023,"$231,Finalizado
+8,Sistema de Gestión de Documentos,Desarrollo de un sistema para la gestión y archivo de documentos,06-09-2023,19-05-2023,"$65,Finalizado
+9,Investigación de Trastornos del Sueño,Estudio y tratamiento de diversos trastornos del sueño,23-05-2023,03-08-2023,"$555,Finalizado
+10,Sistema de Incendios Extremo,Desarrollo de un sistema avanzado de prevención y control de incendios,14-02-2023,03-04-2023,"$240,Finalizado
+11,Genomica,Proyecto ios de genonica para reproducir analisis de adn,8-7-2024,7-7-2026,100000000,Activo

@@ -3,6 +3,7 @@ from parseador_archivos import *
 from typing import Dict
 
 NOMBRE_ARCHIVO = "Proyectos.csv"
+FORMATO = "%d-%m-%Y"
 id_autoincremental = 0
 #guardo el parseo del csv en una variable
 lista_proyectos = parse_csv(NOMBRE_ARCHIVO)
@@ -39,11 +40,11 @@ def validar_descripcion(descripcion: str) -> bool:
     return True
 
 def validar_fecha(fecha: str) -> bool:
-    formato = "%d/%m/%Y"
+    global FORMATO
     
     try:
         # Convertir las cadenas de texto en objetos de fecha
-        datetime.strptime(fecha, formato)
+        datetime.strptime(fecha, FORMATO)
 
         return True
     except ValueError:
@@ -51,15 +52,16 @@ def validar_fecha(fecha: str) -> bool:
         return False
 
 def validar_rango_fechas(fecha_inicio: str, fecha_finalizacion: str) -> bool:
-    formato = "%d/%m/%Y"
+    global FORMATO
     
     # Convertir las cadenas de texto en objetos de fecha
-    inicio = datetime.strptime(fecha_inicio, formato)
-    finalizacion = datetime.strptime(fecha_finalizacion, formato)
+    inicio = datetime.strptime(fecha_inicio, FORMATO)
+    finalizacion = datetime.strptime(fecha_finalizacion, FORMATO)
     
     # Verificar que la fecha de finalización no sea anterior a la fecha de inicio
     return finalizacion >= inicio
 
+#valida si el estado ingresado por parametro es Activo, Cancelado o Finalizado, en caso de que no, retorna false
 def validar_estado(estado: str):
    return estado == "Activo" or estado == "Cancelado" or estado ==  "Finalizado"
 
@@ -81,14 +83,14 @@ def crear_proyecto():
         presupuesto = input("por favor ingrese el presupuesto: ")
     
     # pido la fecha de inicio y finalizacion 
-    fecha_de_inicio = input("ingrese la fecha de inicio en formato: dd/mm/aaaa: ")
+    fecha_de_inicio = input("ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
     while not (validar_fecha(fecha_de_inicio)):
-        fecha_de_inicio = input("Por favor. ingrese la fecha de inicio en formato: dd/mm/aaaa: ")
+        fecha_de_inicio = input("Por favor. ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
 
     #valido que la fecha de finalizacion este en el formato correcto y no sea anterior a la fecha de inicio
-    fecha_de_finalizacion = input("ingrese la fecha de inicio en formato: dd/mm/aaaa: ")
+    fecha_de_finalizacion = input("ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
     while not (validar_fecha(fecha_de_finalizacion) and validar_rango_fechas(fecha_de_inicio, fecha_de_finalizacion)):
-        fecha_de_finalizacion = input("Por favor. ingrese la fecha de inicio en formato: dd/mm/aaaa y posterior a la fecha de inicio: ")
+        fecha_de_finalizacion = input("Por favor. ingrese la fecha de inicio en formato: dd-mm-aaaa y posterior a la fecha de inicio: ")
 
     #verifico cuantos ids tiene la lista
     cantidad_ids = len(lista_proyectos)
@@ -120,6 +122,7 @@ def ingresar_id_a_modificar():
     
     return resultado
 
+#se ingresa un proyecto a modifica por parametro
 def modificar_proyecto(proyecto: Dict):
     global lista_proyectos
 
@@ -181,14 +184,31 @@ def modificar_proyecto(proyecto: Dict):
             proyecto["Estado"] = estado_nuevo
             generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
             print("El proyecto modificó el estado exitosamente.")
-                
+
+# le pide al usuario un id, y en caso de que exista, se le modifica el estado a cancelado                
 def cancelar_proyecto():
+    global lista_proyectos
     proyecto = ingresar_id_a_modificar()
     proyecto["Estado"] = "Cancelado"
     generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
     print("proyecto cancelado exitosamente")
 
+# Cambiará el estado de todos los proyectos cuya fecha de finalización ya haya sucedido.
+def comprobar_proyectos():
+    global FORMATO
+    global lista_proyectos
+    #obtengo la fecha de hoy en formato 'dd-mm-aaaa'
+    fecha_hoy = datetime.today()
+    fecha_hoy_formateada = fecha_hoy.strftime(FORMATO)
 
+    for proyecto in lista_proyectos:
+        if not validar_rango_fechas(fecha_hoy_formateada,proyecto['Fecha de Fin']):
+            proyecto['Estado'] = "Finalizado"
+    generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
+    print("proyectos comprobados exitosamente")
+
+
+    
 
     
     

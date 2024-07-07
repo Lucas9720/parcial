@@ -15,7 +15,7 @@ while(corriendo):
         case 3:
             cancelar_proyecto()
         case 4:
-            break
+            comprobar_proyectos()
         case 5:
             break
         case 6:
