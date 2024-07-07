@@ -10,7 +10,8 @@ while(corriendo):
         case 1:
             crear_proyecto()
         case 2:
-            break
+            proyecto_a_modificar = ingresar_id_a_modificar()
+            modificar_proyecto(proyecto_a_modificar)
         case 3:
             break
         case 4:
