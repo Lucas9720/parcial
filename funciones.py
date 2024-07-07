@@ -110,13 +110,13 @@ def crear_proyecto():
 def ingresar_id_a_modificar():
     global lista_proyectos
 
-    id = input("ingrese el id a modificar: ")
+    id = input("ingrese el id: ")
     
     # Buscar el diccionario que contiene el valor especificado en la clave "id"
     resultado = next((item for item in lista_proyectos if item["id"] == id), None)
     
     while(resultado is None):
-        id = input("El id no existe, ingrese el id a modificar: ")
+        id = input("El id no existe, ingrese el id: ")
     
     return resultado
 
@@ -182,7 +182,11 @@ def modificar_proyecto(proyecto: Dict):
             generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
             print("El proyecto modificó el estado exitosamente.")
                 
-
+def cancelar_proyecto():
+    proyecto = ingresar_id_a_modificar()
+    proyecto["Estado"] = "Cancelado"
+    generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
+    print("proyecto cancelado exitosamente")
 
 
 
