@@ -23,7 +23,8 @@ def convertir_string_a_datos(lista_proyectos: list):
 def convertir_datos_a_string(lista_proyectos: list):
     global FORMATO
     for proyecto in lista_proyectos:
-        proyecto['Fecha de inicio'] = str(proyecto['Fecha de inicio'])
+        fecha_inicio = proyecto['Fecha de inicio'].strftime(FORMATO)
+        proyecto['Fecha de inicio'] = str(fecha_inicio)
         presupuesto= proyecto['Presupuesto']
         # convierto el presupuesto a string agrandole el signo pesos y las comas
         proyecto['Presupuesto'] = f"${presupuesto:,.2f}"
