@@ -1,0 +1,7 @@
+Fecha de solicitud: 08-07-2024
+Número de reporte: 10
+Cantidad de proyectos que tienen el nombre Sistema de Incendios Extremo: 2
+Listado de proyectos:
+| id | Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |
+| 10 | Sistema de Incendios Extremo | Desarrollo de un sistema avanzado de prevención y control de incendios | 240045465.0 | 2023-02-14 00:00:00 | 03-04-2023 | Finalizado |
+| 11 | Sistema de Incendios Extremo | Desarrollo de un sistema avanzado de prevención y control de incendios | 240045465.0 | 2023-02-14 00:00:00 | 03-04-2023 | Finalizado |

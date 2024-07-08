@@ -188,7 +188,8 @@ def comprobar_proyectos(lista_proyectos: list):
     global FORMATO
     #obtengo la fecha de hoy en formato 'dd-mm-aaaa'
     fecha_hoy = datetime.today()
-    fecha_hoy_formateada = fecha_hoy.strftime(FORMATO)
+    fecha_hoy_str = fecha_hoy.strftime("%d-%m-%Y")
+    fecha_hoy_formateada = datetime.strptime(fecha_hoy_str, FORMATO)
 
     #Recorro toda la lista
     for proyecto in lista_proyectos:
@@ -221,11 +222,11 @@ def calcular_promedio(lista_proyectos: list):
     presupuesto_total = 0
     #recorro todos los proyectos y voy sumando sus presupuestos
     for proyecto in lista_proyectos:
-       presupuesto = int(proyecto['Presupuesto'])
+       presupuesto = proyecto['Presupuesto']
        presupuesto_total += presupuesto
     #para sacar el promedio calculo la suma de todos los presupuestos divido la cantidad de proyectos   
     resultado = presupuesto_total / len(lista_proyectos)
-    print(f"el promedio presupuestario es: {int(resultado)}")
+    print(f"el promedio presupuestario es: ${resultado:,.2f}")
 
 def ingresar_id_a_modificar(lista_proyectos: list):
     id = input("ingrese el id: ")
@@ -263,17 +264,24 @@ def ordenar_lista(lista_proyectos: list):
     
     lista_proyectos = []
     lista_proyectos = lista_ordenada
-    mostrar_proyectos()
+    mostrar_proyectos(lista_proyectos)
 
 def retomar_proyecto(lista_proyectos: list):
     lista_cancelados = []
+    fecha_hoy = datetime.today()
+    fecha_hoy_str = fecha_hoy.strftime("%d-%m-%Y")
+    fecha_hoy_formateada = datetime.strptime(fecha_hoy_str, FORMATO)
+
     for proyecto in lista_proyectos:
-        if proyecto["Estado"] == "Cancelado":
+        if proyecto["Estado"] == "Cancelado" and validar_rango_fechas(fecha_hoy_formateada, proyecto["Fecha de Fin"]):
             lista_cancelados.append(proyecto)
     mostrar_proyectos(lista_cancelados)
 
     id_activar = input("ingrese el id a activar: ")
-    proyecto_activar = next((item for item in lista_proyectos if item["id"] == id_activar), None) 
+    proyecto_activar = next((item for item in lista_cancelados if item["id"] == id_activar), None) 
+    while(not proyecto_activar):
+        id_activar = input("ingrese un id a activar que figure en la lista: ")
+        proyecto_activar = next((item for item in lista_cancelados if item["id"] == id_activar), None)
     proyecto_activar["Estado"] = "Activo"
 
 def calcular_promedio_cancelados(lista_proyectos: list):
@@ -341,9 +349,18 @@ def generar_reporte_presupuesto(lista_proyectos: list):
 
     contenido_reporte += f"Cantidad de proyectos que superan el presupuesto de {presupuesto}: {cantidad_proyectos}\n"
     contenido_reporte += "Listado de proyectos:\n"
+
+    contenido_reporte += "| id | Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |\n"
     
     for proyecto in proyectos_filtrados:
-        contenido_reporte += f"- {proyecto}\n" 
+        id = proyecto["id"]
+        nombre = proyecto["Nombre del Proyecto"]
+        descripcion = proyecto["Descripción"]
+        actual_presupuesto = proyecto["Presupuesto"]
+        fecha_inicio = proyecto["Fecha de inicio"]
+        fecha_fin = proyecto["Fecha de Fin"]
+        estado = proyecto["Estado"]
+        contenido_reporte += f"| {id} | {nombre} | {descripcion} | {actual_presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n"
     
     # Guardar el reporte en un archivo de texto
     guardar_reporte(contenido_reporte)
@@ -371,6 +388,38 @@ def generar_reporte_nombre(lista_proyectos: list):
     nombre = pedir_nombre()
 
     # obtengo una lista de proyectos con el nombre que ingreso el usuario
+    proyectos_filtrados = obtener_lista_por_nombre(lista_proyectos, nombre)
+
+        # Obtener la fecha de solicitud del reporte
+    fecha_solicitud = datetime.today().strftime(FORMATO)
+    
+    # Contar la cantidad de proyectos que coinciden con el criterio
+    cantidad_proyectos = len(proyectos_filtrados)
+    
+    # Generar el contenido del reporte
+    contenido_reporte = f"Fecha de solicitud: {fecha_solicitud}\n"
+
+    # guardo la cantidad de reportes
+    numero_reporte = obtener_num_reporte()
+    contenido_reporte += f"Número de reporte: {numero_reporte + 1}\n"
+
+    contenido_reporte += f"Cantidad de proyectos que tienen el nombre {nombre}: {cantidad_proyectos}\n"
+    contenido_reporte += "Listado de proyectos:\n"
+
+    contenido_reporte += "| id | Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |\n"
+    for proyecto in proyectos_filtrados:
+        id = proyecto["id"]
+        nombre = proyecto["Nombre del Proyecto"]
+        descripcion = proyecto["Descripción"]
+        presupuesto = proyecto["Presupuesto"]
+        fecha_inicio = proyecto["Fecha de inicio"]
+        fecha_fin = proyecto["Fecha de Fin"]
+        estado = proyecto["Estado"]
+        contenido_reporte += f"| {id} | {nombre} | {descripcion} | {presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n"
+    
+    # Guardar el reporte en un archivo de texto
+    guardar_reporte(contenido_reporte)
+
 
 
 def obtener_lista_por_nombre(lista_proyectos: list, nombre: str):

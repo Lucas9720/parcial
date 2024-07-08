@@ -1,5 +1,14 @@
 [
     {
+        "id": "3",
+        "Nombre del Proyecto": "Sistema de Informaci\u00f3n Epidemiol\u00f3gica",
+        "Descripci\u00f3n": "Plataforma para el seguimiento y an\u00e1lisis de datos epidemiol\u00f3gicos",
+        "Fecha de inicio": "14-06-2023",
+        "Fecha de Fin": "02-02-2024",
+        "Presupuesto": "$850,312,588.00",
+        "Estado": "Finalizado"
+    },
+    {
         "id": "4",
         "Nombre del Proyecto": "Red de Transporte P\u00fablico",
         "Descripci\u00f3n": "Mejora y ampliaci\u00f3n de la infraestructura de transporte p\u00fablico",
@@ -24,6 +33,24 @@
         "Fecha de inicio": "23-05-2023",
         "Fecha de Fin": "03-08-2023",
         "Presupuesto": "$555,060,646.00",
+        "Estado": "Finalizado"
+    },
+    {
+        "id": "10",
+        "Nombre del Proyecto": "Sistema de Incendios Extremo",
+        "Descripci\u00f3n": "Desarrollo de un sistema avanzado de prevenci\u00f3n y control de incendios",
+        "Fecha de inicio": "14-02-2023",
+        "Fecha de Fin": "03-04-2023",
+        "Presupuesto": "$240,045,465.00",
+        "Estado": "Finalizado"
+    },
+    {
+        "id": "11",
+        "Nombre del Proyecto": "Sistema de Incendios Extremo",
+        "Descripci\u00f3n": "Desarrollo de un sistema avanzado de prevenci\u00f3n y control de incendios",
+        "Fecha de inicio": "14-02-2023",
+        "Fecha de Fin": "03-04-2023",
+        "Presupuesto": "$240,045,465.00",
         "Estado": "Finalizado"
     }
 ]

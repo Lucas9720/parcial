@@ -34,7 +34,7 @@ while(corriendo):
         case 10:
             generar_reporte_presupuesto(lista_proyectos)
         case 11:
-            break
+            generar_reporte_nombre(lista_proyectos)
         case 12:
              convertir_datos_a_string(lista_proyectos)
              generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
