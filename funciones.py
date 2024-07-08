@@ -216,7 +216,7 @@ def mostrar_proyectos(lista_proyectos: list):
         if isinstance(fecha_inicio, datetime):
             fecha_inicio = fecha_inicio.strftime(FORMATO)
 
-        print(f"| {id} | {nombre} | {descripcion} | {presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n")
+        print(f"| {id} | {nombre} | {descripcion} | ${presupuesto:,.2f} | {fecha_inicio} | {fecha_fin} | {estado} |\n")
 
 def calcular_promedio(lista_proyectos: list):
     presupuesto_total = 0
@@ -295,19 +295,21 @@ def calcular_promedio_cancelados(lista_proyectos: list):
     lista_proyectos = []
     lista_proyectos = lista_nueva
 
-    calcular_promedio()
+    calcular_promedio(lista_proyectos)
 
 def calcular_top_3_activo(lista_proyectos: list):
-    bandera = True
-    presupuesto_mas_alto = 0
+    lista_top_3 = []
 
-    for proyecto in lista_proyectos:
-        if proyecto['Estado'] == 'Activo':
-            if int(proyecto['Presupuesto']) > presupuesto_mas_alto or bandera:
-                bandera = False
-                presupuesto_mas_alto = int(proyecto['Presupuesto'])
+    #Obtengo los mejores presupuestos
+    lista_top = sorted(lista_proyectos, key=lambda x: x['Presupuesto'], reverse=True)
 
-    print(f"el presupuesto mas alto es {presupuesto_mas_alto}")
+    #aplico el filtro de estado activo
+    for proyecto in lista_top:
+      if proyecto["Estado"] == "Activo":
+          lista_top_3.append(proyecto)
+
+
+    mostrar_proyectos(lista_top_3)
 
 def crear_json_con_proyectos_finalizados(lista_proyectos: list):
     lista_finalizados = []
@@ -360,7 +362,7 @@ def generar_reporte_presupuesto(lista_proyectos: list):
         fecha_inicio = proyecto["Fecha de inicio"]
         fecha_fin = proyecto["Fecha de Fin"]
         estado = proyecto["Estado"]
-        contenido_reporte += f"| {id} | {nombre} | {descripcion} | {actual_presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n"
+        contenido_reporte += f"| {id} | {nombre} | {descripcion} | ${actual_presupuesto:,.2f} | {fecha_inicio} | {fecha_fin} | {estado} |\n"
     
     # Guardar el reporte en un archivo de texto
     guardar_reporte(contenido_reporte)
@@ -415,7 +417,7 @@ def generar_reporte_nombre(lista_proyectos: list):
         fecha_inicio = proyecto["Fecha de inicio"]
         fecha_fin = proyecto["Fecha de Fin"]
         estado = proyecto["Estado"]
-        contenido_reporte += f"| {id} | {nombre} | {descripcion} | {presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n"
+        contenido_reporte += f"| {id} | {nombre} | {descripcion} | ${presupuesto:,.2f} | {fecha_inicio} | {fecha_fin} | {estado} |\n"
     
     # Guardar el reporte en un archivo de texto
     guardar_reporte(contenido_reporte)

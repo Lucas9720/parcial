@@ -41,6 +41,6 @@ while(corriendo):
              crear_json_con_proyectos_finalizados(lista_proyectos)
              corriendo = False
         case 13:
-           calcular_promedio_cancelados()
+           calcular_promedio_cancelados(lista_proyectos)
         case 14:
-           calcular_top_3_activo()
+           calcular_top_3_activo(lista_proyectos)
