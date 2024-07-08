@@ -17,13 +17,14 @@ while(corriendo):
         case 4:
             comprobar_proyectos()
         case 5:
-             mostrar_proyectos()
+             lista = parse_csv(NOMBRE_ARCHIVO)
+             mostrar_proyectos(lista)
         case 6:
              calcular_promedio()
         case 7:
              ingresar_nombre_a_buscar()
         case 8:
-            break
+             ordenar_lista()
         case 9:
             break
         case 10:

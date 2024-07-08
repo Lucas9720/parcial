@@ -138,53 +138,39 @@ def modificar_proyecto(proyecto: Dict):
                  nombre_nuevo = input("por favor ingrese un nombre valido: ")
         
             proyecto["Nombre del Proyecto"] = nombre_nuevo
-            generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
-            print("el proyecto modifico el nombre exitosamente")
-    
         case 2:
             descripcion_nueva = input("Ingrese la nueva descripción del proyecto: ")
             while not validar_descripcion(descripcion_nueva):
                 descripcion_nueva = input("Por favor, ingrese una descripción válida: ")
             
             proyecto["Descripción"] = descripcion_nueva
-            generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
-            print("El proyecto modificó la descripción exitosamente.")
-        
         case 3:
             fecha_inicio_nueva = input("Ingrese la nueva fecha de inicio (DD-MM-AAAA): ")
             while not validar_fecha(fecha_inicio_nueva):
                 fecha_inicio_nueva = input("Por favor, ingrese una fecha de inicio válida (DD-MM-AAAA): ")
             
             proyecto["Fecha de inicio"] = fecha_inicio_nueva
-            generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
-            print("El proyecto modificó la fecha de inicio exitosamente.")
-        
         case 4:
             fecha_fin_nueva = input("Ingrese la nueva fecha de fin (DD-MM-AAAA): ")
             while not validar_fecha(fecha_fin_nueva):
                 fecha_fin_nueva = input("Por favor, ingrese una fecha de fin válida (DD-MM-AAAA): ")
             
             proyecto["Fecha de Fin"] = fecha_fin_nueva
-            generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
-            print("El proyecto modificó la fecha de fin exitosamente.")
-        
         case 5:
             presupuesto_nuevo = int(input("Ingrese el nuevo presupuesto (entero no menor a $500000): "))
             while not validar_presupuesto(presupuesto_nuevo):
                 presupuesto_nuevo = int(input("Por favor, ingrese un presupuesto válido (entero no menor a $500000): "))
             
             proyecto["Presupuesto"] = presupuesto_nuevo
-            generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
-            print("El proyecto modificó el presupuesto exitosamente.")
-        
         case 6:
             estado_nuevo = input("Ingrese el nuevo estado del proyecto(Activo, Finalizado o Cancelado): ")
             while not validar_estado(estado_nuevo):
                 estado_nuevo = input("Por favor, ingrese un estado válido: ")
             
             proyecto["Estado"] = estado_nuevo
-            generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
-            print("El proyecto modificó el estado exitosamente.")
+
+    generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
+    print("el proyecto modifico el nombre exitosamente")
 
 # le pide al usuario un id, y en caso de que exista, se le modifica el estado a cancelado                
 def cancelar_proyecto():
@@ -210,9 +196,7 @@ def comprobar_proyectos():
     generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
     print("proyectos comprobados exitosamente")
 
-def mostrar_proyectos():
-    global lista_proyectos
-    
+def mostrar_proyectos(lista_proyectos: list):
     # Cabecera de la tabla
     print("| Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |\n")
     
@@ -221,12 +205,12 @@ def mostrar_proyectos():
         nombre = proyecto.get("Nombre del Proyecto", "")
         descripcion = proyecto.get("Descripción", "")
         presupuesto = proyecto.get("Presupuesto", "")
-        fecha_inicio = proyecto.get("Fecha de Inicio", "")
+        fecha_inicio = proyecto.get("Fecha de inicio", "")
         fecha_fin = proyecto.get("Fecha de Fin", "")
         estado = proyecto.get("Estado", "")
         
         # Imprimiendo cada proyecto con el formato deseado
-        print(f"| {nombre} | {descripcion} | {presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n")
+        print(f"| {nombre} | {descripcion} | {presupuesto} | {fecha_inicio.strftime(FORMATO)} | {fecha_fin} | {estado} |\n")
 
 def calcular_promedio():
     global lista_proyectos
@@ -267,8 +251,37 @@ def ingresar_nombre_a_buscar():
     print(f"| {proyecto['Nombre del Proyecto']} | {proyecto['Descripción']} | {proyecto['Presupuesto']} | {proyecto['Fecha de inicio']} | {proyecto['Fecha de Fin']} | {proyecto['Estado']} |")
 
 
+def convertir_datos(lista):
+    global FORMATO
+    for proyecto in lista:
+        proyecto['Presupuesto'] = float(proyecto['Presupuesto'])
+        proyecto['Fecha de inicio'] = datetime.strptime(proyecto['Fecha de inicio'], FORMATO)
+
+def ordenar_lista():
+    global lista_proyectos
+    lista_ordenada = []
     
+    key = int(input("ingresar una opcion para ordenar, 1 por Nombre, 2 por presupuesto, 3 por fecha de inicio: "))
+    while not (key == 1 or key == 2 or key == 3):
+         key = int(input("Por favor ingrese una opcion correcta, 1 por Nombre, 2 por presupuesto, 3 por fecha de inicio: "))
+
+    forma_de_ordenamiento =  int(input("ingrese una opcion de que forma ordenar, 1 para ascendente, 2 para descendente: "))
+    while not (forma_de_ordenamiento == 1 or forma_de_ordenamiento == 2):
+         forma_de_ordenamiento = int(input("Por favor ingrese una opcion correcta, 1 para ascendente, 2 para descendente: "))
     
+    forma_de_ordenamiento = (forma_de_ordenamiento == 2)
+    convertir_datos(lista_proyectos)
+
+    match(key):
+        case 1:
+            lista_ordenada = sorted(lista_proyectos, key=lambda x: x['Nombre del Proyecto'], reverse=forma_de_ordenamiento)
+        case 2:
+            lista_ordenada = sorted(lista_proyectos, key=lambda x: x['Presupuesto'], reverse=forma_de_ordenamiento)
+        case 3:
+            lista_ordenada = sorted(lista_proyectos, key=lambda x: x['Fecha de inicio'], reverse=forma_de_ordenamiento)
+    
+    mostrar_proyectos(lista_ordenada)
+
     
 
 
