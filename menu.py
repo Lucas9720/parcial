@@ -2,6 +2,7 @@ from parseador_archivos import *
 from funciones import *
 
 corriendo = True
+#guardo el parseo del csv en una variable
 
 # este while imprime el menu de opciones
 while(corriendo):

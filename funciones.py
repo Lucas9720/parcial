@@ -65,32 +65,60 @@ def validar_rango_fechas(fecha_inicio: str, fecha_finalizacion: str) -> bool:
 def validar_estado(estado: str):
    return estado == "Activo" or estado == "Cancelado" or estado ==  "Finalizado"
 
-def crear_proyecto():
-    global lista_proyectos
+def perdir_nombre() -> str:
     # pido el nombre al usuario
     nombre = input("ingrese el nombre del proyecto: ")
     while not (validar_nombre(nombre)):
         nombre = input("por favor ingrese un nombre valido: ")
-    
+    return nombre
+
+def pedir_descripcion() -> str:
     # pido la descripcion al usuario
     descripcion = input("ingrese la descripcion: ")
     while not (validar_descripcion(descripcion)):
         descripcion = input("por favor ingrese una descripcion valida: ")
-    
-    # pido el presupuesto al usuario
+    return descripcion
+
+def pedir_presupuesto() -> str:
+     # pido el presupuesto al usuario
     presupuesto = int(input("ingrese el presupuesto: "))
     while not (validar_presupuesto(presupuesto)):
         presupuesto = input("por favor ingrese el presupuesto: ")
-    
+    return presupuesto
+
+def pedir_fecha_inicio() -> str:
     # pido la fecha de inicio y finalizacion 
     fecha_de_inicio = input("ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
     while not (validar_fecha(fecha_de_inicio)):
         fecha_de_inicio = input("Por favor. ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
-
-    #valido que la fecha de finalizacion este en el formato correcto y no sea anterior a la fecha de inicio
-    fecha_de_finalizacion = input("ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
+    return fecha_de_inicio
+    
+def pedir_fecha_fin() -> str:
+     #valido que la fecha de finalizacion este en el formato correcto y no sea anterior a la fecha de inicio
+    fecha_de_finalizacion = input("ingrese la fecha de finalizacion en formato: dd-mm-aaaa: ")
     while not (validar_fecha(fecha_de_finalizacion) and validar_rango_fechas(fecha_de_inicio, fecha_de_finalizacion)):
-        fecha_de_finalizacion = input("Por favor. ingrese la fecha de inicio en formato: dd-mm-aaaa y posterior a la fecha de inicio: ")
+        fecha_de_finalizacion = input("Por favor. ingrese la fecha de finalizacion en formato: dd-mm-aaaa y posterior a la fecha de inicio: ")    
+    return fecha_de_finalizacion
+
+def pedir_estado() -> str:
+    ## pido estado al usuario
+    estado_nuevo = input("Ingrese el nuevo estado del proyecto(Activo, Finalizado o Cancelado): ")
+    while not validar_estado(estado_nuevo):
+        estado_nuevo = input("Por favor, ingrese un estado válido: ")
+    return estado_nuevo
+
+def crear_proyecto():
+    global lista_proyectos
+
+    nombre = perdir_nombre()
+    
+    descripcion = pedir_descripcion()
+
+    presupuesto = pedir_presupuesto()
+    
+    fecha_de_inicio = pedir_fecha_inicio()
+
+    fecha_de_finalizacion = pedir_fecha_fin()
 
     #verifico cuantos ids tiene la lista
     cantidad_ids = len(lista_proyectos)
@@ -133,40 +161,22 @@ def modificar_proyecto(proyecto: Dict):
 
     match columna_a_modificar:
         case 1: 
-            nombre_nuevo = input("ingrese el nuevo nombre del proyecto: ")
-            while not (validar_nombre(nombre_nuevo)):
-                 nombre_nuevo = input("por favor ingrese un nombre valido: ")
-        
+            nombre_nuevo = perdir_nombre()
             proyecto["Nombre del Proyecto"] = nombre_nuevo
         case 2:
-            descripcion_nueva = input("Ingrese la nueva descripción del proyecto: ")
-            while not validar_descripcion(descripcion_nueva):
-                descripcion_nueva = input("Por favor, ingrese una descripción válida: ")
-            
+            descripcion_nueva = pedir_descripcion()
             proyecto["Descripción"] = descripcion_nueva
         case 3:
-            fecha_inicio_nueva = input("Ingrese la nueva fecha de inicio (DD-MM-AAAA): ")
-            while not validar_fecha(fecha_inicio_nueva):
-                fecha_inicio_nueva = input("Por favor, ingrese una fecha de inicio válida (DD-MM-AAAA): ")
-            
+            fecha_inicio_nueva = pedir_fecha_inicio()
             proyecto["Fecha de inicio"] = fecha_inicio_nueva
         case 4:
-            fecha_fin_nueva = input("Ingrese la nueva fecha de fin (DD-MM-AAAA): ")
-            while not validar_fecha(fecha_fin_nueva):
-                fecha_fin_nueva = input("Por favor, ingrese una fecha de fin válida (DD-MM-AAAA): ")
-            
+            fecha_fin_nueva = pedir_fecha_fin()
             proyecto["Fecha de Fin"] = fecha_fin_nueva
         case 5:
-            presupuesto_nuevo = int(input("Ingrese el nuevo presupuesto (entero no menor a $500000): "))
-            while not validar_presupuesto(presupuesto_nuevo):
-                presupuesto_nuevo = int(input("Por favor, ingrese un presupuesto válido (entero no menor a $500000): "))
-            
+            presupuesto_nuevo = pedir_presupuesto()
             proyecto["Presupuesto"] = presupuesto_nuevo
         case 6:
-            estado_nuevo = input("Ingrese el nuevo estado del proyecto(Activo, Finalizado o Cancelado): ")
-            while not validar_estado(estado_nuevo):
-                estado_nuevo = input("Por favor, ingrese un estado válido: ")
-            
+            estado_nuevo = pedir_estado()
             proyecto["Estado"] = estado_nuevo
 
     generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
