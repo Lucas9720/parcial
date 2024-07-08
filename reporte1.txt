@@ -1,0 +1,5 @@
+Fecha de solicitud: 08-07-2024
+Número de reporte: 1
+Cantidad de proyectos que superan el presupuesto de 50000.0: 1
+Listado de proyectos:
+- {'id': '12', 'Nombre del Proyecto': 'pepeJuguetes', 'Descripción': 'juguetes pepe para jugar', 'Fecha de inicio': '7-7-2024', 'Fecha de Fin': '20-2-2030', 'Presupuesto': '4000000', 'Estado': 'ACTIVO'}

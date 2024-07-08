@@ -1,0 +1,13 @@
+Fecha de solicitud: 08-07-2024
+Número de reporte: 2
+Cantidad de proyectos que superan el presupuesto de 50.0: 9
+Listado de proyectos:
+- {'id': '1', 'Nombre del Proyecto': 'f', 'Descripción': 'Sistema de gestión de recursos empresariales para mejorar la eficiencia operativa', 'Fecha de inicio': '13-10-2023', 'Fecha de Fin': '17-04-2025', 'Presupuesto': '5000', 'Estado': '931'}
+- {'id': '2', 'Nombre del Proyecto': 'a', 'Descripción': 'Desarrollo de un sistema avanzado de planificación de recursos empresariales', 'Fecha de inicio': '17-07-2023', 'Fecha de Fin': '18-05-2025', 'Presupuesto': '500', 'Estado': 'Cancelado'}
+- {'id': '3', 'Nombre del Proyecto': 'c', 'Descripción': 'Plataforma para el seguimiento y análisis de datos epidemiológicos', 'Fecha de inicio': '14-06-2023', 'Fecha de Fin': '02-02-2024', 'Presupuesto': '50000', 'Estado': 'Finalizado'}
+- {'id': '4', 'Nombre del Proyecto': 'g', 'Descripción': 'Mejora y ampliación de la infraestructura de transporte público', 'Fecha de inicio': '30-03-2023', 'Fecha de Fin': '24-07-2023', 'Presupuesto': '5000', 'Estado': 'Finalizado'}
+- {'id': '6', 'Nombre del Proyecto': 'z', 'Descripción': 'Investigación y desarrollo en microbiología aplicada', 'Fecha de inicio': '13-07-2023', 'Fecha de Fin': '07-10-2025', 'Presupuesto': '50000', 'Estado': 'Cancelado'}
+- {'id': '7', 'Nombre del Proyecto': 'x', 'Descripción': 'Desarrollo de un sistema para la planificación de la sucesión en empresas', 'Fecha de inicio': '01-01-2023', 'Fecha de Fin': '20-05-2023', 'Presupuesto': '5000', 'Estado': 'Cancelado'}
+- {'id': '9', 'Nombre del Proyecto': 'i', 'Descripción': 'Estudio y tratamiento de diversos trastornos del sueño', 'Fecha de inicio': '23-05-2023', 'Fecha de Fin': '03-08-2023', 'Presupuesto': '500', 'Estado': 'Cancelado'}
+- {'id': '11', 'Nombre del Proyecto': 'Genomica', 'Descripción': 'Proyecto ios de genonica para reproducir analisis de adn', 'Fecha de inicio': '8-7-2024', 'Fecha de Fin': '7-7-2026', 'Presupuesto': '100', 'Estado': 'Activo'}
+- {'id': '12', 'Nombre del Proyecto': 'pepeJuguetes', 'Descripción': 'juguetes pepe para jugar', 'Fecha de inicio': '7-7-2024', 'Fecha de Fin': '20-2-2030', 'Presupuesto': '4000000', 'Estado': 'ACTIVO'}

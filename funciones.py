@@ -323,23 +323,36 @@ def crear_json_con_proyectos_finalizados(lista_proyectos: list):
 
     generar_json("ProyectosFinalizados.json", lista_finalizados)
 
+def obtener_proyectos_presupuesto(lista_proyectos: list, presupuesto: int):
+    lista_proyectos_superan_presupuesto = []
+    for proyecto in lista_proyectos:
+        if int(proyecto["Presupuesto"]) > presupuesto:
+            lista_proyectos_superan_presupuesto.append(proyecto)
+    
+    return lista_proyectos_superan_presupuesto
+    
+
 # Función para generar el reporte
 def generar_reporte(lista_proyectos: list):
     # Pedir al usuario que ingrese el presupuesto
     presupuesto = float(input("Ingrese el presupuesto mínimo para filtrar proyectos: "))
     
     # Filtrar proyectos que superen el presupuesto
-    proyectos_filtrados = [proyecto for proyecto in lista_proyectos if proyecto["Presupuesto"] > presupuesto]
+    proyectos_filtrados = obtener_proyectos_presupuesto(lista_proyectos, presupuesto)
     
     # Obtener la fecha de solicitud del reporte
-    fecha_solicitud = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    fecha_solicitud = datetime.today().strftime(FORMATO)
     
     # Contar la cantidad de proyectos que coinciden con el criterio
     cantidad_proyectos = len(proyectos_filtrados)
     
     # Generar el contenido del reporte
     contenido_reporte = f"Fecha de solicitud: {fecha_solicitud}\n"
-    contenido_reporte += f"Número de reporte: {generar_numero_reporte()}\n"
+
+    # guardo la cantidad de reportes
+    numero_reporte = obtener_num_reporte()
+    contenido_reporte += f"Número de reporte: {numero_reporte + 1}\n"
+
     contenido_reporte += f"Cantidad de proyectos que superan el presupuesto de {presupuesto}: {cantidad_proyectos}\n"
     contenido_reporte += "Listado de proyectos:\n"
     
@@ -349,17 +362,24 @@ def generar_reporte(lista_proyectos: list):
     # Guardar el reporte en un archivo de texto
     guardar_reporte(contenido_reporte)
 
-# Función para generar un número de reporte único
-def generar_numero_reporte():
-    # Implementación de generación de número de reporte (puedes ajustar según tus necesidades)
-    # Por ejemplo, podría ser un número secuencial o basado en la fecha/hora actual
-    return 1  # Aquí podrías implementar la lógica para generar un número único
+def guardar_numero_reporte(reporte_num: int):
+    lista =[{"numeroDeReporte" : reporte_num}]
+    generar_json("contadorReportes.json",lista)
+
+def obtener_num_reporte() -> int:
+    num_reporte_actual = 0
+    lista = parsear_json("contadorReportes.json")
+    if lista:
+        num_reporte_actual = lista[0]["numeroDeReporte"]
+    return num_reporte_actual
 
 # Función para guardar el reporte en un archivo de texto
 def guardar_reporte(contenido):
-    nombre_archivo = f"reporte_{generar_numero_reporte()}.txt"
+    numero_reporte = obtener_num_reporte() + 1
+    nombre_archivo = f"reporte{numero_reporte}.txt"
     with open(nombre_archivo, 'w') as archivo:
         archivo.write(contenido)
+    guardar_numero_reporte(numero_reporte)
 
 
             

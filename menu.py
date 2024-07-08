@@ -28,7 +28,7 @@ while(corriendo):
         case 9:
             retomar_proyecto(lista_proyectos)
         case 10:
-            break
+            generar_reporte(lista_proyectos)
         case 11:
             break
         case 12:
