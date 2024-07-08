@@ -307,12 +307,27 @@ def calcular_promedio_cancelados():
 
     # Buscar la palabra en la cadena
     for proyecto in lista_proyectos:
-        if palabra in proyecto['Descripción'].lower():
+        if palabra in proyecto['Descripción'].lower() and proyecto['Estado'] == 'Cancelado':
             lista_nueva.append(proyecto)
     lista_proyectos = []
     lista_proyectos = lista_nueva
 
     calcular_promedio()
+
+def calcular_top_3_activo():
+    global lista_proyectos
+    bandera = True
+    presupuesto_mas_alto = 0
+
+    for proyecto in lista_proyectos:
+        if proyecto['Estado'] == 'Activo':
+            if int(proyecto['Presupuesto']) > presupuesto_mas_alto or bandera:
+                bandera = False
+                presupuesto_mas_alto = int(proyecto['Presupuesto'])
+
+    print(f"el presupuesto mas alto es {presupuesto_mas_alto}")
+
+
 
 
             
