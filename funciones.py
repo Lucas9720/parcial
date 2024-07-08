@@ -8,6 +8,27 @@ id_autoincremental = 0
 #guardo el parseo del csv en una variable
 lista_proyectos = parse_csv(NOMBRE_ARCHIVO)
 
+def convertir_a_flotante(cadena):
+    # Eliminar el símbolo '$' y las comas ','
+    cadena_limpia = cadena.replace('$', '').replace(',', '').replace('"', '')
+    # Convertir la cadena limpia a flotante
+    return float(cadena_limpia)
+
+def convertir_string_a_datos(lista_proyectos: list):
+    global FORMATO
+    for proyecto in lista_proyectos:
+        proyecto['Fecha de inicio'] = datetime.strptime(proyecto['Fecha de inicio'], FORMATO)
+        proyecto['Presupuesto'] = convertir_a_flotante(proyecto['Presupuesto'])
+
+def convertir_datos_a_string(lista_proyectos: list):
+    global FORMATO
+    for proyecto in lista_proyectos:
+        proyecto['Fecha de inicio'] = str(proyecto['Fecha de inicio'])
+        presupuesto_parseado = str(proyecto['Presupuesto'])  
+
+        proyecto['Presupuesto'] = str(proyecto['Presupuesto'])  
+
+
 def validar_nombre(nombre: str) -> bool:
     # Verificar que el nombre no exceda los 30 caracteres
     if len(nombre) > 30:
@@ -75,14 +96,14 @@ def perdir_nombre() -> str:
 def pedir_descripcion() -> str:
     # pido la descripcion al usuario
     descripcion = input("ingrese la descripcion: ")
-    while not (validar_descripcion(descripcion)):
+    while (not validar_descripcion(descripcion)):
         descripcion = input("por favor ingrese una descripcion valida: ")
     return descripcion
 
 def pedir_presupuesto() -> str:
      # pido el presupuesto al usuario
     presupuesto = int(input("ingrese el presupuesto: "))
-    while not (validar_presupuesto(presupuesto)):
+    while (not validar_presupuesto(presupuesto)):
         presupuesto = input("por favor ingrese el presupuesto: ")
     return presupuesto
 
@@ -93,10 +114,10 @@ def pedir_fecha_inicio() -> str:
         fecha_de_inicio = input("Por favor. ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
     return fecha_de_inicio
     
-def pedir_fecha_fin() -> str:
+def pedir_fecha_fin(fecha_inicio: str) -> str:
      #valido que la fecha de finalizacion este en el formato correcto y no sea anterior a la fecha de inicio
     fecha_de_finalizacion = input("ingrese la fecha de finalizacion en formato: dd-mm-aaaa: ")
-    while not (validar_fecha(fecha_de_finalizacion) and validar_rango_fechas(fecha_de_inicio, fecha_de_finalizacion)):
+    while not (validar_fecha(fecha_de_finalizacion) and validar_rango_fechas(fecha_inicio, fecha_de_finalizacion)):
         fecha_de_finalizacion = input("Por favor. ingrese la fecha de finalizacion en formato: dd-mm-aaaa y posterior a la fecha de inicio: ")    
     return fecha_de_finalizacion
 
@@ -107,7 +128,7 @@ def pedir_estado() -> str:
         estado_nuevo = input("Por favor, ingrese un estado válido: ")
     return estado_nuevo
 
-def crear_proyecto(lista_proyecto: list):
+def crear_proyecto(lista_proyectos: list):
     nombre = perdir_nombre()
     
     descripcion = pedir_descripcion()
@@ -116,7 +137,7 @@ def crear_proyecto(lista_proyecto: list):
     
     fecha_de_inicio = pedir_fecha_inicio()
 
-    fecha_de_finalizacion = pedir_fecha_fin()
+    fecha_de_finalizacion = pedir_fecha_fin(fecha_de_inicio)
 
     #verifico cuantos ids tiene la lista
     cantidad_ids = len(lista_proyectos)
@@ -132,7 +153,7 @@ def crear_proyecto(lista_proyecto: list):
                       "Estado": "ACTIVO"}
     lista_proyectos.append(nuevo_proyecto)
 
-def ingresar_id_a_modificar(lista_proyecto: list):
+def ingresar_id_a_modificar(lista_proyectos: list):
     id = input("ingrese el id: ")
     
     # Buscar el diccionario que contiene el valor especificado en la clave "id"
@@ -161,7 +182,7 @@ def modificar_proyecto(proyecto: Dict):
             fecha_inicio_nueva = pedir_fecha_inicio()
             proyecto["Fecha de inicio"] = fecha_inicio_nueva
         case 4:
-            fecha_fin_nueva = pedir_fecha_fin()
+            fecha_fin_nueva = pedir_fecha_fin(proyecto["Fecha de inicio"])
             proyecto["Fecha de Fin"] = fecha_fin_nueva
         case 5:
             presupuesto_nuevo = pedir_presupuesto()
@@ -243,13 +264,6 @@ def ingresar_nombre_a_buscar(lista_proyectos: list):
     print("| Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |\n")
     print(f"| {proyecto['Nombre del Proyecto']} | {proyecto['Descripción']} | {proyecto['Presupuesto']} | {proyecto['Fecha de inicio']} | {proyecto['Fecha de Fin']} | {proyecto['Estado']} |")
 
-
-def convertir_datos(lista):
-    global FORMATO
-    for proyecto in lista:
-        proyecto['Presupuesto'] = float(proyecto['Presupuesto'])
-        proyecto['Fecha de inicio'] = datetime.strptime(proyecto['Fecha de inicio'], FORMATO)
-
 def ordenar_lista(lista_proyectos: list):
     lista_ordenada = []
     
@@ -263,9 +277,6 @@ def ordenar_lista(lista_proyectos: list):
 
     # En caso de que sea true, se ordenara de forma descendente, y si es false de forma ascendente.
     forma_de_ordenamiento = (forma_de_ordenamiento == 2)
-
-    #parseo los datos de la lista
-    convertir_datos(lista_proyectos)
 
     match(key):
         case 1:
