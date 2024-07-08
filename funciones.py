@@ -24,37 +24,25 @@ def convertir_datos_a_string(lista_proyectos: list):
     global FORMATO
     for proyecto in lista_proyectos:
         proyecto['Fecha de inicio'] = str(proyecto['Fecha de inicio'])
-        presupuesto_parseado = str(proyecto['Presupuesto'])  
+        presupuesto= proyecto['Presupuesto']
+        # convierto el presupuesto a string agrandole el signo pesos y las comas
+        proyecto['Presupuesto'] = f"${presupuesto:,.2f}"
 
-        proyecto['Presupuesto'] = str(proyecto['Presupuesto'])  
 
-
-def validar_nombre(nombre: str) -> bool:
-    # Verificar que el nombre no exceda los 30 caracteres
-    if len(nombre) > 30:
-        return False
-
-    # Verificar que el nombre solo contenga caracteres alfabéticos
-    for char in nombre:
-        if not char.isalpha():
-            return False
-
-    return True
-
-def validar_presupuesto(presupuesto: int) -> bool:
+def validar_presupuesto(presupuesto) -> bool:
     # Verificar que el presupuesto sea un valor numérico entero no menor a $500000
-    if isinstance(presupuesto, int) and presupuesto >= 500000:
+    if isinstance(presupuesto, float) and presupuesto >= 500000:
         return True
     else:
         return False
     
-def validar_descripcion(descripcion: str) -> bool:
+def validar_texto(texto: str, limite: int) -> bool:
     # Verificar que la descripción no exceda los 200 caracteres
-    if len(descripcion) > 200:
+    if len(texto) > limite:
         return False
 
     # Verificar que la descripción solo contenga caracteres alfanuméricos y espacios
-    for char in descripcion:
+    for char in texto:
         if not (char.isalnum() or char.isspace()):
             return False
 
@@ -86,17 +74,17 @@ def validar_rango_fechas(fecha_inicio: str, fecha_finalizacion: str) -> bool:
 def validar_estado(estado: str):
    return estado == "Activo" or estado == "Cancelado" or estado ==  "Finalizado"
 
-def perdir_nombre() -> str:
+def pedir_nombre() -> str:
     # pido el nombre al usuario
     nombre = input("ingrese el nombre del proyecto: ")
-    while not (validar_nombre(nombre)):
+    while (not validar_texto(nombre, 30)):
         nombre = input("por favor ingrese un nombre valido: ")
     return nombre
 
 def pedir_descripcion() -> str:
     # pido la descripcion al usuario
     descripcion = input("ingrese la descripcion: ")
-    while (not validar_descripcion(descripcion)):
+    while (not validar_texto(descripcion, 200)):
         descripcion = input("por favor ingrese una descripcion valida: ")
     return descripcion
 
@@ -129,7 +117,7 @@ def pedir_estado() -> str:
     return estado_nuevo
 
 def crear_proyecto(lista_proyectos: list):
-    nombre = perdir_nombre()
+    nombre = pedir_nombre()
     
     descripcion = pedir_descripcion()
 
@@ -173,7 +161,7 @@ def modificar_proyecto(proyecto: Dict):
 
     match columna_a_modificar:
         case 1: 
-            nombre_nuevo = perdir_nombre()
+            nombre_nuevo = pedir_nombre()
             proyecto["Nombre del Proyecto"] = nombre_nuevo
         case 2:
             descripcion_nueva = pedir_descripcion()

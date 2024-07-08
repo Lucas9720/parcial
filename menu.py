@@ -34,6 +34,7 @@ while(corriendo):
         case 11:
             break
         case 12:
+             convertir_datos_a_string(lista_proyectos)
              generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
              crear_json_con_proyectos_finalizados(lista_proyectos)
              corriendo = False
