@@ -61,15 +61,13 @@ def validar_fecha(fecha: str) -> bool:
         # Si hay un error en la conversión de la fecha, no es una fecha válida
         return False
 
-def validar_rango_fechas(fecha_inicio: str, fecha_finalizacion: str) -> bool:
+def validar_rango_fechas(fecha_inicio: datetime, fecha_finalizacion: str) -> bool:
     global FORMATO
     
-    # Convertir las cadenas de texto en objetos de fecha
-    inicio = datetime.strptime(fecha_inicio, FORMATO)
     finalizacion = datetime.strptime(fecha_finalizacion, FORMATO)
     
     # Verificar que la fecha de finalización no sea anterior a la fecha de inicio
-    return finalizacion >= inicio
+    return finalizacion >= fecha_inicio
 
 #valida si el estado ingresado por parametro es Activo, Cancelado o Finalizado, en caso de que no, retorna false
 def validar_estado(estado: str):
@@ -89,26 +87,26 @@ def pedir_descripcion() -> str:
         descripcion = input("por favor ingrese una descripcion valida: ")
     return descripcion
 
-def pedir_presupuesto() -> str:
+def pedir_presupuesto() -> float:
      # pido el presupuesto al usuario
-    presupuesto = int(input("ingrese el presupuesto: "))
+    presupuesto = float(input("ingrese el presupuesto: "))
     while (not validar_presupuesto(presupuesto)):
         presupuesto = input("por favor ingrese el presupuesto: ")
-    return presupuesto
+    return float(presupuesto)
 
-def pedir_fecha_inicio() -> str:
+def pedir_fecha_inicio() -> datetime:
     # pido la fecha de inicio y finalizacion 
     fecha_de_inicio = input("ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
     while not (validar_fecha(fecha_de_inicio)):
         fecha_de_inicio = input("Por favor. ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
-    return fecha_de_inicio
+    return  datetime.strptime(fecha_de_inicio, FORMATO)
     
-def pedir_fecha_fin(fecha_inicio: str) -> str:
+def pedir_fecha_fin(fecha_inicio: datetime) -> datetime:
      #valido que la fecha de finalizacion este en el formato correcto y no sea anterior a la fecha de inicio
     fecha_de_finalizacion = input("ingrese la fecha de finalizacion en formato: dd-mm-aaaa: ")
     while not (validar_fecha(fecha_de_finalizacion) and validar_rango_fechas(fecha_inicio, fecha_de_finalizacion)):
         fecha_de_finalizacion = input("Por favor. ingrese la fecha de finalizacion en formato: dd-mm-aaaa y posterior a la fecha de inicio: ")    
-    return fecha_de_finalizacion
+    return datetime.strptime(fecha_de_finalizacion, FORMATO)
 
 def pedir_estado() -> str:
     ## pido estado al usuario

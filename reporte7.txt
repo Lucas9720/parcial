@@ -1,0 +1,5 @@
+Fecha de solicitud: 08-07-2024
+Número de reporte: 7
+Cantidad de proyectos que superan el presupuesto de 50.0: 11
+Listado de proyectos:
+| 1 | Plataforma de Gestión Empresarial | Sistema de gestión de recursos empresariales para mejorar la eficiencia operativa | 42931805.0 | 13-10-2023 | 17-04-2025 | Activo |

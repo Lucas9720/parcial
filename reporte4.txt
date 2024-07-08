@@ -1,0 +1,6 @@
+Fecha de solicitud: 08-07-2024
+Número de reporte: 4
+Cantidad de proyectos con el nombre Sistema de Incendios Extremo: 2
+Listado de proyectos:
+- {'id': '10', 'Nombre del Proyecto': 'Sistema de Incendios Extremo', 'Descripción': 'Desarrollo de un sistema avanzado de prevención y control de incendios', 'Fecha de inicio': datetime.datetime(2023, 2, 14, 0, 0), 'Fecha de Fin': '03-04-2023', 'Presupuesto': 240045465.0, 'Estado': 'Cancelado'}
+- {'id': '11', 'Nombre del Proyecto': 'Sistema de Incendios Extremo', 'Descripción': 'Desarrollo de un sistema avanzado de prevención y control de incendios', 'Fecha de inicio': datetime.datetime(2023, 2, 14, 0, 0), 'Fecha de Fin': '03-04-2023', 'Presupuesto': 240045465.0, 'Estado': 'Cancelado'}
