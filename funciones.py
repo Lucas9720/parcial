@@ -107,9 +107,7 @@ def pedir_estado() -> str:
         estado_nuevo = input("Por favor, ingrese un estado válido: ")
     return estado_nuevo
 
-def crear_proyecto():
-    global lista_proyectos
-
+def crear_proyecto(lista_proyecto: list):
     nombre = perdir_nombre()
     
     descripcion = pedir_descripcion()
@@ -134,12 +132,9 @@ def crear_proyecto():
                       "Estado": "ACTIVO"}
     lista_proyectos.append(nuevo_proyecto)
 
-    generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
     print("proyecto agregado exitosamente")
 
-def ingresar_id_a_modificar():
-    global lista_proyectos
-
+def ingresar_id_a_modificar(lista_proyecto: list):
     id = input("ingrese el id: ")
     
     # Buscar el diccionario que contiene el valor especificado en la clave "id"
@@ -153,8 +148,6 @@ def ingresar_id_a_modificar():
 
 #se ingresa un proyecto a modifica por parametro
 def modificar_proyecto(proyecto: Dict):
-    global lista_proyectos
-
     columna_a_modificar = int(input("Ingrese la opcion a modificar\n1 para 'Nombre del Proyecto'\n2 para 'Descripción'\n3 para 'Fecha de inicio'\n4 para 'Fecha de Fin'\n5 para 'Presupuesto'\n6 para 'Estado': "))
     while columna_a_modificar < 1 or columna_a_modificar > 6:
         columna_a_modificar =  int(input("Por favor, Ingrese una opcion correcta a modificar\n1 para 'Nombre del Proyecto'\n2 para 'Descripción'\n3 para 'Fecha de inicio'\n4 para 'Fecha de Fin'\n5 para 'Presupuesto'\n6 para 'Estado': "))
@@ -178,22 +171,17 @@ def modificar_proyecto(proyecto: Dict):
         case 6:
             estado_nuevo = pedir_estado()
             proyecto["Estado"] = estado_nuevo
-
-    generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
     print("el proyecto modifico el nombre exitosamente")
 
 # le pide al usuario un id, y en caso de que exista, se le modifica el estado a cancelado                
-def cancelar_proyecto():
-    global lista_proyectos
-    proyecto = ingresar_id_a_modificar()
+def cancelar_proyecto(lista_proyectos: list):
+    proyecto = ingresar_id_a_modificar(lista_proyectos)
     proyecto["Estado"] = "Cancelado"
-    generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
     print("proyecto cancelado exitosamente")
 
 # Cambiará el estado de todos los proyectos cuya fecha de finalización ya haya sucedido.
-def comprobar_proyectos():
+def comprobar_proyectos(lista_proyectos: list):
     global FORMATO
-    global lista_proyectos
     #obtengo la fecha de hoy en formato 'dd-mm-aaaa'
     fecha_hoy = datetime.today()
     fecha_hoy_formateada = fecha_hoy.strftime(FORMATO)
@@ -203,11 +191,9 @@ def comprobar_proyectos():
         #busco algun proyecto donde la fecha sea menor a la fecha de hoy
         if not validar_rango_fechas(fecha_hoy_formateada,proyecto['Fecha de Fin']):
             proyecto['Estado'] = "Finalizado"
-    generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
     print("proyectos comprobados exitosamente")
 
-def mostrar_proyectos():
-    global lista_proyectos
+def mostrar_proyectos(lista_proyecto: list):
     # Cabecera de la tabla
     print("| Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |\n")
     
@@ -226,8 +212,7 @@ def mostrar_proyectos():
 
         print(f"| {nombre} | {descripcion} | {presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n")
 
-def calcular_promedio():
-    global lista_proyectos
+def calcular_promedio(lista_proyectos: list):
     presupuesto_total = 0
     #recorro todos los proyectos y voy sumando sus presupuestos
     for proyecto in lista_proyectos:
@@ -237,9 +222,7 @@ def calcular_promedio():
     resultado = presupuesto_total / len(lista_proyectos)
     print(f"el promedio presupuestario es: {int(resultado)}")
 
-def ingresar_id_a_modificar():
-    global lista_proyectos
-
+def ingresar_id_a_modificar(lista_proyectos: list):
     id = input("ingrese el id: ")
     
     # Buscar el diccionario que contiene el valor especificado en la clave "id"
@@ -251,8 +234,7 @@ def ingresar_id_a_modificar():
     
     return resultado
 
-def ingresar_nombre_a_buscar():
-    global lista_proyectos
+def ingresar_nombre_a_buscar(lista_proyectos: list):
     nombre_a_buscar = input("ingrese el nombre a buscar: ")
     proyecto = next((item for item in lista_proyectos if item["Nombre del Proyecto"] == nombre_a_buscar), None)
 
@@ -271,8 +253,7 @@ def convertir_datos(lista):
         proyecto['Presupuesto'] = float(proyecto['Presupuesto'])
         proyecto['Fecha de inicio'] = datetime.strptime(proyecto['Fecha de inicio'], FORMATO)
 
-def ordenar_lista():
-    global lista_proyectos
+def ordenar_lista(lista_proyectos: list):
     lista_ordenada = []
     
     key = int(input("ingresar una opcion para ordenar, 1 por Nombre, 2 por presupuesto, 3 por fecha de inicio: "))
@@ -301,17 +282,15 @@ def ordenar_lista():
     lista_proyectos = lista_ordenada
     mostrar_proyectos()
 
-def retomar_proyecto():
+def retomar_proyecto(lista_proyectos: list):
     global FORMATO
-    global lista_proyectos
     #obtengo la fecha de hoy en formato 'dd-mm-aaaa'
     fecha_hoy = datetime.today()
     fecha_hoy_formateada = fecha_hoy.strftime(FORMATO)
 
     #Recorro toda la lista
 
-def calcular_promedio_cancelados():
-    global lista_proyectos
+def calcular_promedio_cancelados(lista_proyectos: list):
     lista_nueva = []
     palabra = "desarrollo"
 
@@ -324,8 +303,7 @@ def calcular_promedio_cancelados():
 
     calcular_promedio()
 
-def calcular_top_3_activo():
-    global lista_proyectos
+def calcular_top_3_activo(lista_proyectos: list):
     bandera = True
     presupuesto_mas_alto = 0
 
