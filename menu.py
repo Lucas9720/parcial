@@ -33,6 +33,7 @@ while(corriendo):
             break
         case 12:
              generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
+             crear_json_con_proyectos_finalizados(lista_proyectos)
              corriendo = False
         case 13:
            calcular_promedio_cancelados()
