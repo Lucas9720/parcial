@@ -24,13 +24,15 @@ while(corriendo):
         case 6:
             calcular_promedio(lista_proyectos)
         case 7:
-            ingresar_nombre_a_buscar(lista_proyectos)
+            nombre = pedir_nombre()
+            lista_por_nombre = obtener_lista_por_nombre(lista_proyectos, nombre)
+            mostrar_proyectos(lista_por_nombre)
         case 8:
             ordenar_lista(lista_proyectos)
         case 9:
             retomar_proyecto(lista_proyectos)
         case 10:
-            generar_reporte(lista_proyectos)
+            generar_reporte_presupuesto(lista_proyectos)
         case 11:
             break
         case 12:

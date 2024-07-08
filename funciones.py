@@ -241,18 +241,6 @@ def ingresar_id_a_modificar(lista_proyectos: list):
     
     return resultado
 
-def ingresar_nombre_a_buscar(lista_proyectos: list):
-    nombre_a_buscar = input("ingrese el nombre a buscar: ")
-    proyecto = next((item for item in lista_proyectos if item["Nombre del Proyecto"] == nombre_a_buscar), None)
-
-    while (proyecto is None):
-        nombre_a_buscar = input("El proyecto ingresado no existe. ingrese el nombre a buscar: ")
-        proyecto = next((item for item in lista_proyectos if item["Nombre del Proyecto"] == nombre_a_buscar), None)
-
-    # Cabecera de la tabla
-    print("| Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |\n")
-    print(f"| {proyecto['Nombre del Proyecto']} | {proyecto['Descripción']} | {proyecto['Presupuesto']} | {proyecto['Fecha de inicio']} | {proyecto['Fecha de Fin']} | {proyecto['Estado']} |")
-
 def ordenar_lista(lista_proyectos: list):
     lista_ordenada = []
     
@@ -330,10 +318,10 @@ def obtener_proyectos_presupuesto(lista_proyectos: list, presupuesto: int):
             lista_proyectos_superan_presupuesto.append(proyecto)
     
     return lista_proyectos_superan_presupuesto
-    
 
-# Función para generar el reporte
-def generar_reporte(lista_proyectos: list):
+
+# Función para generar el reporte con presupuesto
+def generar_reporte_presupuesto(lista_proyectos: list):
     # Pedir al usuario que ingrese el presupuesto
     presupuesto = float(input("Ingrese el presupuesto mínimo para filtrar proyectos: "))
     
@@ -381,5 +369,16 @@ def guardar_reporte(contenido):
         archivo.write(contenido)
     guardar_numero_reporte(numero_reporte)
 
+def generar_reporte_nombre(lista_proyectos: list):
+    nombre = pedir_nombre()
 
-            
+    # obtengo una lista de proyectos con el nombre que ingreso el usuario
+
+
+def obtener_lista_por_nombre(lista_proyectos: list, nombre: str):
+    lista_presupuestos_nombre = []
+
+    for proyecto in lista_proyectos:
+       if proyecto['Nombre del Proyecto'] == nombre:
+           lista_presupuestos_nombre.append(proyecto)
+    return lista_presupuestos_nombre
