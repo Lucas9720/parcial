@@ -196,21 +196,25 @@ def comprobar_proyectos():
     generar_csv(NOMBRE_ARCHIVO, lista_proyectos)
     print("proyectos comprobados exitosamente")
 
-def mostrar_proyectos(lista_proyectos: list):
+def mostrar_proyectos():
+    global lista_proyectos
     # Cabecera de la tabla
     print("| Nombre del Proyecto | Descripción | Presupuesto | Fecha de Inicio | Fecha de Fin | Estado |\n")
     
     # Recorriendo la lista de proyectos y mostrando cada proyecto
     for proyecto in lista_proyectos:
-        nombre = proyecto.get("Nombre del Proyecto", "")
-        descripcion = proyecto.get("Descripción", "")
-        presupuesto = proyecto.get("Presupuesto", "")
-        fecha_inicio = proyecto.get("Fecha de inicio", "")
-        fecha_fin = proyecto.get("Fecha de Fin", "")
-        estado = proyecto.get("Estado", "")
+        nombre = proyecto["Nombre del Proyecto"]
+        descripcion = proyecto["Descripción"]
+        presupuesto = proyecto["Presupuesto"]
+        fecha_inicio = proyecto["Fecha de inicio"]
+        fecha_fin = proyecto["Fecha de Fin"]
+        estado = proyecto["Estado"]
         
-        # Imprimiendo cada proyecto con el formato deseado
-        print(f"| {nombre} | {descripcion} | {presupuesto} | {fecha_inicio.strftime(FORMATO)} | {fecha_fin} | {estado} |\n")
+        # en caso de que fecha inicio sea datetime, le paso el formato correcto
+        if isinstance(fecha_inicio, datetime):
+            fecha_inicio = fecha_inicio.strftime(FORMATO)
+
+        print(f"| {nombre} | {descripcion} | {presupuesto} | {fecha_inicio} | {fecha_fin} | {estado} |\n")
 
 def calcular_promedio():
     global lista_proyectos
@@ -268,8 +272,11 @@ def ordenar_lista():
     forma_de_ordenamiento =  int(input("ingrese una opcion de que forma ordenar, 1 para ascendente, 2 para descendente: "))
     while not (forma_de_ordenamiento == 1 or forma_de_ordenamiento == 2):
          forma_de_ordenamiento = int(input("Por favor ingrese una opcion correcta, 1 para ascendente, 2 para descendente: "))
-    
+
+    # En caso de que sea true, se ordenara de forma descendente, y si es false de forma ascendente.
     forma_de_ordenamiento = (forma_de_ordenamiento == 2)
+
+    #parseo los datos de la lista
     convertir_datos(lista_proyectos)
 
     match(key):
@@ -280,13 +287,32 @@ def ordenar_lista():
         case 3:
             lista_ordenada = sorted(lista_proyectos, key=lambda x: x['Fecha de inicio'], reverse=forma_de_ordenamiento)
     
-    mostrar_proyectos(lista_ordenada)
+    lista_proyectos = []
+    lista_proyectos = lista_ordenada
+    mostrar_proyectos()
 
-    
+def retomar_proyecto():
+    global FORMATO
+    global lista_proyectos
+    #obtengo la fecha de hoy en formato 'dd-mm-aaaa'
+    fecha_hoy = datetime.today()
+    fecha_hoy_formateada = fecha_hoy.strftime(FORMATO)
 
+    #Recorro toda la lista
 
+def calcular_promedio_cancelados():
+    global lista_proyectos
+    lista_nueva = []
+    palabra = "desarrollo"
 
+    # Buscar la palabra en la cadena
+    for proyecto in lista_proyectos:
+        if palabra in proyecto['Descripción'].lower():
+            lista_nueva.append(proyecto)
+    lista_proyectos = []
+    lista_proyectos = lista_nueva
 
+    calcular_promedio()
 
 
             
