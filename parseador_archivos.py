@@ -1,3 +1,7 @@
+#Alumno: Lucas Gabriel Nuñez
+#dni: 40129239
+#division: 314
+
 import os
 import json
 import csv

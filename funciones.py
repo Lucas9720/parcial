@@ -1,3 +1,7 @@
+#Alumno: Lucas Gabriel Nuñez
+#dni: 40129239
+#division: 314
+
 from datetime import datetime
 from parseador_archivos import *
 from typing import Dict
@@ -30,7 +34,7 @@ def convertir_datos_a_string(lista_proyectos: list):
         proyecto['Presupuesto'] = f"${presupuesto:,.2f}"
 
 
-def validar_presupuesto(presupuesto) -> bool:
+def validar_presupuesto(presupuesto: float) -> bool:
     # Verificar que el presupuesto sea un valor numérico entero no menor a $500000
     if isinstance(presupuesto, float) and presupuesto >= 500000:
         return True
@@ -49,6 +53,7 @@ def validar_texto(texto: str, limite: int) -> bool:
 
     return True
 
+#valida que la fecha este en el formato correcto
 def validar_fecha(fecha: str) -> bool:
     global FORMATO
     
@@ -71,40 +76,41 @@ def validar_rango_fechas(fecha_inicio: datetime, fecha_finalizacion: str) -> boo
 
 #valida si el estado ingresado por parametro es Activo, Cancelado o Finalizado, en caso de que no, retorna false
 def validar_estado(estado: str):
+   #valida que el usuario no ingrese otro estado que no este disponible
    return estado == "Activo" or estado == "Cancelado" or estado ==  "Finalizado"
 
 def pedir_nombre() -> str:
     # pido el nombre al usuario
     nombre = input("ingrese el nombre del proyecto: ")
-    while (not validar_texto(nombre, 30)):
+    while (not validar_texto(nombre, 30)): #si el usuario ingresa un nombre de mas de 30 caracteres, se le pedira de nuevo
         nombre = input("por favor ingrese un nombre valido: ")
     return nombre
 
 def pedir_descripcion() -> str:
     # pido la descripcion al usuario
     descripcion = input("ingrese la descripcion: ")
-    while (not validar_texto(descripcion, 200)):
+    while (not validar_texto(descripcion, 200)): #si el usuario ingresa una descripcion mayor a 200 caracteres, se le pedira de nuevo 
         descripcion = input("por favor ingrese una descripcion valida: ")
     return descripcion
 
 def pedir_presupuesto() -> float:
      # pido el presupuesto al usuario
     presupuesto = float(input("ingrese el presupuesto: "))
-    while (not validar_presupuesto(presupuesto)):
-        presupuesto = input("por favor ingrese el presupuesto: ")
+    while (not validar_presupuesto(presupuesto)): #  # Verificar que el presupuesto sea un valor numérico entero no menor a $500000
+        presupuesto = float(input("por favor ingrese el presupuesto: "))
     return float(presupuesto)
 
 def pedir_fecha_inicio() -> datetime:
     # pido la fecha de inicio y finalizacion 
     fecha_de_inicio = input("ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
-    while not (validar_fecha(fecha_de_inicio)):
+    while not (validar_fecha(fecha_de_inicio)): #si el usuario no ingresa una fecha en formato dd-mm-aaaa se le pide de nuevo
         fecha_de_inicio = input("Por favor. ingrese la fecha de inicio en formato: dd-mm-aaaa: ")
     return  datetime.strptime(fecha_de_inicio, FORMATO)
     
 def pedir_fecha_fin(fecha_inicio: datetime) -> datetime:
      #valido que la fecha de finalizacion este en el formato correcto y no sea anterior a la fecha de inicio
     fecha_de_finalizacion = input("ingrese la fecha de finalizacion en formato: dd-mm-aaaa: ")
-    while not (validar_fecha(fecha_de_finalizacion) and validar_rango_fechas(fecha_inicio, fecha_de_finalizacion)):
+    while not (validar_fecha(fecha_de_finalizacion) and validar_rango_fechas(fecha_inicio, fecha_de_finalizacion)): 
         fecha_de_finalizacion = input("Por favor. ingrese la fecha de finalizacion en formato: dd-mm-aaaa y posterior a la fecha de inicio: ")    
     return datetime.strptime(fecha_de_finalizacion, FORMATO)
 
@@ -253,8 +259,9 @@ def ordenar_lista(lista_proyectos: list):
 
     # En caso de que sea true, se ordenara de forma descendente, y si es false de forma ascendente.
     forma_de_ordenamiento = (forma_de_ordenamiento == 2)
-
+    
     match(key):
+        #La función lambda es una función anónima que toma un argumento x (donde x es un diccionario en lista_proyectos) y devuelve el valor asociado a la clave 'Nombre del Proyecto'
         case 1:
             lista_ordenada = sorted(lista_proyectos, key=lambda x: x['Nombre del Proyecto'], reverse=forma_de_ordenamiento)
         case 2:
@@ -268,18 +275,23 @@ def ordenar_lista(lista_proyectos: list):
 
 def retomar_proyecto(lista_proyectos: list):
     lista_cancelados = []
+    #obtengo la fecha de hoy
     fecha_hoy = datetime.today()
+    #paso a string la fecha de hoy
     fecha_hoy_str = fecha_hoy.strftime("%d-%m-%Y")
+    #la formateo en formato "dd-mm-aaaa"
     fecha_hoy_formateada = datetime.strptime(fecha_hoy_str, FORMATO)
 
+    #busco en la lista los proyectos que esten en estado cancelado y verifico que la fecha dd finalizacion no haya pasado
     for proyecto in lista_proyectos:
         if proyecto["Estado"] == "Cancelado" and validar_rango_fechas(fecha_hoy_formateada, proyecto["Fecha de Fin"]):
             lista_cancelados.append(proyecto)
     mostrar_proyectos(lista_cancelados)
 
+    #le pido al usuario el id
     id_activar = input("ingrese el id a activar: ")
     proyecto_activar = next((item for item in lista_cancelados if item["id"] == id_activar), None) 
-    while(not proyecto_activar):
+    while(not proyecto_activar): # si el usuario ingreso un id no existente, se lo pide de nuevo
         id_activar = input("ingrese un id a activar que figure en la lista: ")
         proyecto_activar = next((item for item in lista_cancelados if item["id"] == id_activar), None)
     proyecto_activar["Estado"] = "Activo"
@@ -314,15 +326,15 @@ def calcular_top_3_activo(lista_proyectos: list):
 def crear_json_con_proyectos_finalizados(lista_proyectos: list):
     lista_finalizados = []
     for proyecto in lista_proyectos:
-        if proyecto["Estado"] == "Finalizado":
+        if proyecto["Estado"] == "Finalizado": #busca un proyecto con estado finalizado y lo guarda
             lista_finalizados.append(proyecto)
 
     generar_json("ProyectosFinalizados.json", lista_finalizados)
 
-def obtener_proyectos_presupuesto(lista_proyectos: list, presupuesto: int):
+def obtener_proyectos_presupuesto(lista_proyectos: list, presupuesto: float):
     lista_proyectos_superan_presupuesto = []
     for proyecto in lista_proyectos:
-        if int(proyecto["Presupuesto"]) > presupuesto:
+        if float(proyecto["Presupuesto"]) > presupuesto:
             lista_proyectos_superan_presupuesto.append(proyecto)
     
     return lista_proyectos_superan_presupuesto
