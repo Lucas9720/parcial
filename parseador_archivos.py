@@ -14,20 +14,28 @@ def parse_csv(nombre_archivo: str):
             lineas = contenido.splitlines()
             
             # Obtener las claves desde la primera línea
-            lista_claves = lineas[0].split(',')
+            if lineas:
+                lista_claves = lineas[0].split(',')
+                
+                # Iterar sobre las líneas restantes (datos)
+                for linea in lineas[1:]:
+                    # Dividir la línea en valores, preservando los valores entre comillas
+                    valores = csv.reader([linea]).__next__()
+                    
+                    # Verificar que la línea tiene el mismo número de valores que de claves
+                    if len(valores) == len(lista_claves):
+                        # Crear un diccionario para almacenar los datos de esta línea
+                        dict_aux = {}
+                        for i in range(len(lista_claves)):
+                            dict_aux[lista_claves[i].strip()] = valores[i].strip()  # Eliminar espacios alrededor de los valores
+                        
+                        lista_elementos.append(dict_aux)
+                    else:
+                        print(f"Advertencia: la línea '{linea}' no tiene el número correcto de valores. Se omitirá.")
             
-            # Iterar sobre las líneas restantes (datos)
-            for linea in lineas[1:]:
-                # Dividir la línea en valores, preservando los valores entre comillas
-                valores = csv.reader([linea]).__next__()
-                
-                # Crear un diccionario para almacenar los datos de esta línea
-                dict_aux = {}
-                for i in range(len(lista_claves)):
-                    dict_aux[lista_claves[i].strip()] = valores[i].strip()  # Eliminar espacios alrededor de los valores
-                
-                lista_elementos.append(dict_aux)
-                
+            else:
+                print("El archivo está vacío.")
+                    
         return lista_elementos
     else:
         return "archivo no encontrado"

@@ -69,7 +69,7 @@ def validar_fecha(fecha: str) -> bool:
         # Si hay un error en la conversión de la fecha, no es una fecha válida
         return False
 
-def validar_rango_fechas(fecha_inicio: datetime, fecha_finalizacion: str) -> bool:
+def validar_rango_fechas(fecha_inicio: datetime, fecha_finalizacion) -> bool:
     global FORMATO
     
     finalizacion = datetime.strptime(fecha_finalizacion, FORMATO)
@@ -146,7 +146,7 @@ def crear_proyecto(lista_proyectos: list):
                       "Fecha de inicio": fecha_de_inicio,
                       "Fecha de Fin": fecha_de_finalizacion,
                       "Presupuesto": presupuesto,
-                      "Estado": "ACTIVO"}
+                      "Estado": "Activo"}
     lista_proyectos.append(nuevo_proyecto)
 
 def ingresar_id_a_modificar(lista_proyectos: list):
@@ -202,8 +202,10 @@ def comprobar_proyectos(lista_proyectos: list):
 
     #Recorro toda la lista
     for proyecto in lista_proyectos:
+        fecha_finalizacion = proyecto['Fecha de Fin']
+        fecha_finalizacion_str = fecha_finalizacion.strftime("%d-%m-%Y")
         #busco algun proyecto donde la fecha sea menor a la fecha de hoy
-        if not validar_rango_fechas(fecha_hoy_formateada,proyecto['Fecha de Fin']):
+        if not validar_rango_fechas(fecha_hoy_formateada,fecha_finalizacion_str):
             proyecto['Estado'] = "Finalizado"
     print("proyectos comprobados exitosamente")
 
@@ -307,10 +309,8 @@ def calcular_promedio_cancelados(lista_proyectos: list):
     for proyecto in lista_proyectos:
         if palabra in proyecto['Descripción'].lower() and proyecto['Estado'] == 'Cancelado':
             lista_nueva.append(proyecto)
-    lista_proyectos = []
-    lista_proyectos = lista_nueva
 
-    calcular_promedio(lista_proyectos)
+    calcular_promedio(lista_nueva)
 
 def calcular_top_3_activo(lista_proyectos: list):
     lista_top_3 = []
@@ -323,8 +323,10 @@ def calcular_top_3_activo(lista_proyectos: list):
       if proyecto["Estado"] == "Activo":
           lista_top_3.append(proyecto)
 
-
-    mostrar_proyectos(lista_top_3)
+    if len(lista_top_3) < 3:
+        print("no hay top 3")
+    else:
+        mostrar_proyectos(lista_top_3[:3])
 
 def crear_json_con_proyectos_finalizados(lista_proyectos: list):
     lista_finalizados = []

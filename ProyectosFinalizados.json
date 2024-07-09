@@ -18,6 +18,15 @@
         "Estado": "Finalizado"
     },
     {
+        "id": "7",
+        "Nombre del Proyecto": "Planificaci\u00f3n de Sucesi\u00f3n",
+        "Descripci\u00f3n": "Desarrollo de un sistema para la planificaci\u00f3n de la sucesi\u00f3n en empresas",
+        "Fecha de inicio": "01-01-2023",
+        "Fecha de Fin": "20-05-2023",
+        "Presupuesto": "$231,786,436.00",
+        "Estado": "Finalizado"
+    },
+    {
         "id": "8",
         "Nombre del Proyecto": "Sistema de Gesti\u00f3n de Documentos",
         "Descripci\u00f3n": "Desarrollo de un sistema para la gesti\u00f3n y archivo de documentos",
@@ -36,7 +45,7 @@
         "Estado": "Finalizado"
     },
     {
-        "id": "10",
+        "id": "11",
         "Nombre del Proyecto": "Sistema de Incendios Extremo",
         "Descripci\u00f3n": "Desarrollo de un sistema avanzado de prevenci\u00f3n y control de incendios",
         "Fecha de inicio": "14-02-2023",
@@ -45,12 +54,12 @@
         "Estado": "Finalizado"
     },
     {
-        "id": "11",
-        "Nombre del Proyecto": "Sistema de Incendios Extremo",
-        "Descripci\u00f3n": "Desarrollo de un sistema avanzado de prevenci\u00f3n y control de incendios",
-        "Fecha de inicio": "14-02-2023",
-        "Fecha de Fin": "03-04-2023",
-        "Presupuesto": "$240,045,465.00",
+        "id": "13",
+        "Nombre del Proyecto": "prueba modificacion",
+        "Descripci\u00f3n": "proyecto ios",
+        "Fecha de inicio": "08-07-2024",
+        "Fecha de Fin": "08-07-2023",
+        "Presupuesto": "$500,000.00",
         "Estado": "Finalizado"
     }
 ]
