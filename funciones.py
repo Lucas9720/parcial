@@ -22,20 +22,23 @@ def convertir_string_a_datos(lista_proyectos: list):
     global FORMATO
     for proyecto in lista_proyectos:
         proyecto['Fecha de inicio'] = datetime.strptime(proyecto['Fecha de inicio'], FORMATO)
+        proyecto['Fecha de Fin'] = datetime.strptime(proyecto['Fecha de Fin'], FORMATO)
         proyecto['Presupuesto'] = convertir_a_flotante(proyecto['Presupuesto'])
 
 def convertir_datos_a_string(lista_proyectos: list):
     global FORMATO
     for proyecto in lista_proyectos:
         fecha_inicio = proyecto['Fecha de inicio'].strftime(FORMATO)
+        fecha_fin = proyecto['Fecha de Fin'].strftime(FORMATO)
         proyecto['Fecha de inicio'] = str(fecha_inicio)
+        proyecto['Fecha de Fin'] = str(fecha_fin)
         presupuesto= proyecto['Presupuesto']
         # convierto el presupuesto a string agrandole el signo pesos y las comas
         proyecto['Presupuesto'] = f"${presupuesto:,.2f}"
 
 
 def validar_presupuesto(presupuesto: float) -> bool:
-    # Verificar que el presupuesto sea un valor numérico entero no menor a $500000
+    # Verificar que el presupuesto sea un valor numérico flotante no menor a $500000
     if isinstance(presupuesto, float) and presupuesto >= 500000:
         return True
     else:
